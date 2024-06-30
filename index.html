@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="bfed6c5f-91f0-4f9d-a61a-e48bb9bfd2c1";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script> -->
+</head>
+
+<body>
+
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1588305461280187',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v18.0'
+            });
+        };
+    </script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        // Facebook Login with JavaScript SDK
+        function launchWhatsAppSignup() {
+            FB.login(function (response) {
+                if (response.authResponse) {
+               
+                    console.log(response.authResponse)
+                    $.ajax({
+                        url: '/access_token',
+                        method: 'GET',
+                        data: {
+                            code: response.authResponse.code
+                        },
+                        success: function () {
+                            console.log('1')
+                        }
+                    })
+
+                } else {
+                    console.log('User cancelled login or did not fully authorize.');
+                }
+            }, {
+
+                config_id: '1011683780368358', // configuration ID obtained in the previous step goes here
+                response_type: 'code',     // must be set to 'code' for System User access token
+                override_default_response_type: true,
+                extras: {
+                    sessionInfoVersion: 2,  //  Receive Session Logging Info
+                }
+            });
+        }
+        const sessionInfoListener = (event) => {
+     
+            try {
+                const data = JSON.parse(event.data);
+                if (data.type === 'WA_EMBEDDED_SIGNUP') {
+                    // if user finishes the Embedded Signup flow
+                    if (data.event === 'FINISH') {
+                        const { phone_number_id, waba_id } = data.data;
+                    }
+                    // if user cancels the Embedded Signup flow
+                    else {
+                        const { current_step } = data.data;
+                    }
+                }
+            } catch {
+                // Don’t parse info that’s not a JSON
+                console.log('Non JSON Response', event.data);
+            }
+        };
+
+        window.addEventListener('message', sessionInfoListener);
+
+    </script>
+
+    <button onclick="launchWhatsAppSignup()"
+        style="background-color: #1877f2; border: 0; border-radius: 4px; color: #fff; cursor: pointer; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold; height: 40px; padding: 0 24px;">
+        Login with Facebook
+    </button>
+    <script>
+        window.intercomSettings = {
+          api_base: "https://api-iam.intercom.io",
+          app_id: "e5xvgjki",
+        };
+      </script>
+      
+      
+      <script>
+        // We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/e5xvgjki'
+        (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/e5xvgjki';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+      </script>
+</body>
+
+</html>
