@@ -129,7 +129,7 @@ app.get("/webhook", (req, res) => {
 function getWABAId(user_access_token, cb) {
   var options = {
     'method': 'GET',
-    'url': `https://graph.facebook.com/v16.0/debug_token?input_token=${user_access_token}&access_token=EAAWkji7QfbsBOZByR8ZC4PViEziTNj15Hj4GqQxb8dV4RTZAZCRqzMW9kosUlb3BDNh5NzZAGS5Qaz21L7kMYitIMnV3i7cNCRWc4tA0ZCzSoh9A7MPhaiDEjdpnN3k1Cyk0pKU0SsqiAw6ZB5BUGOdDlmfm5ZBi1ll2ZCdnj4uYFamZCr4TOmuPZBCu1o03JOkTzs8qsWI3BH8AYw5RwGQf8zJskKR7PfbLWfQm7BBX7QEPgZDZD`,
+    'url': `https://graph.facebook.com/v16.0/debug_token?input_token=${user_access_token}&access_token=1588305461280187|RvuZimhPjKWiGhSpypFyxHUxwBM`,
     'headers': {
     }
   };
