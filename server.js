@@ -74,7 +74,12 @@ app.get('/access_token', (req, res) => {
   };
   request(options, function (error, response) {
     if (error) throw new Error(error);
+    console.log("Access token");
+
     console.log(response.body);
+      getWABAId(response.body.access_token, function () {
+
+    });
     res.send(response.body)
 
   });
@@ -94,10 +99,11 @@ app.get('/get_wb_data', (req, res) => {
   };
   request(options, function (error, response) {
     if (error) throw new Error(error);
+    
     console.log(response.body);
     res.send(response.body)
   });
- 
+
 })
 
 app.get("/webhook", (req, res) => {
@@ -120,6 +126,54 @@ app.get("/webhook", (req, res) => {
 });
 
 
+function getWABAId(user_access_token, cb) {
+  var options = {
+    'method': 'GET',
+    'url': `https://graph.facebook.com/v16.0/debug_token?input_token=${user_access_token}&access_token=EAAWkji7QfbsBOZByR8ZC4PViEziTNj15Hj4GqQxb8dV4RTZAZCRqzMW9kosUlb3BDNh5NzZAGS5Qaz21L7kMYitIMnV3i7cNCRWc4tA0ZCzSoh9A7MPhaiDEjdpnN3k1Cyk0pKU0SsqiAw6ZB5BUGOdDlmfm5ZBi1ll2ZCdnj4uYFamZCr4TOmuPZBCu1o03JOkTzs8qsWI3BH8AYw5RwGQf8zJskKR7PfbLWfQm7BBX7QEPgZDZD`,
+    'headers': {
+    }
+  };
+  request(options, function (error, response) {
+    if (error) throw new Error(error);
+    console.log("getWABAId");
+
+    console.log(response.body);
+    getWPPhoneNumberId(user_access_token, response.body.data.granular_scopes[1].target_ids[0], function () {
+
+    })
+  });
+}
+
+
+function getWPPhoneNumberId(user_access_token, waba_id, cb) {
+  var options = {
+    'method': 'GET',
+    'url': `https://graph.facebook.com/v16.0/${waba_id}/phone_numbers?access_token=${user_access_token}`,
+    'headers': {
+    }
+  };
+  request(options, function (error, response) {
+    if (error) throw new Error(error);
+    console.log("getWPPhoneNumberId");
+    console.log(response.body);
+    registerPhoneNumber(response.body.data[0].id, user_access_token)
+  });
+}
+
+function registerPhoneNumber(phone_number_id, user_access_token) {
+  var options = {
+    'method': 'POST',
+    'url': `https://graph.facebook.com/v16.0/${phone_number_id}/register?messaging_product=whatsapp&pin=123456&access_token=${user_access_token}`,
+    'headers': {
+    }
+  };
+  request(options, function (error, response) {
+    if (error) throw new Error(error);
+    console.log("registerPhoneNumber");
+    console.log(response.body);
+  });
+}
+
 
 let port = 4000 || process.env.PORT;
 
@@ -127,7 +181,7 @@ run_mode = args[1];
 
 
 
-if(run_mode == 2){
+if (run_mode == 2) {
 
   var server = http.createServer(app);
   var options = {
@@ -139,8 +193,8 @@ if(run_mode == 2){
     console.log('App listening on port 443!');
   });
 
-  app.listen(80, (req,res)=>{
-  console.log('local started')
+  app.listen(80, (req, res) => {
+    console.log('local started')
   });
 
 } else {
