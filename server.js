@@ -9,10 +9,8 @@ const path = require('path');
 var http = require("http");
 var https = require('https');
 var fs = require("fs");
-var user_token;
-var page_id;
-var access_token;
-var last_recipient;
+
+
 
 app.use(body_parser.json());
 app.use(body_parser.urlencoded({ extended: true }));
@@ -26,6 +24,7 @@ app.get('/', (req, res) => {
 
 app.post("/webhook", async (req, res) => {
   let body = req.body;
+  console.log(body)
   console.log(req.body.entry[0].changes[0].value) // main object
   if (req.body.entry[0].changes[0].value.messages) { // if user texted
     console.log(req.body.entry[0].changes[0].value.messages[0].text.body) // text of message
@@ -174,8 +173,29 @@ function registerPhoneNumber(phone_number_id, user_access_token) {
   });
 }
 
+function setWebhook(waba_id, user_access_token){
+  var request = require('request');
+  var options = {
+    'method': 'POST',
+    'url': `https://graph.facebook.com/v20.0/${waba_id}/subscribed_apps`,
+    'headers': {
+      'Authorization': `Bearer ${user_access_token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "override_callback_uri": "https://c10.webapi.ai/whatsapp/webhook",
+      "verify_token": "6v0xt4vi"
+    })
 
-let port = 4000 || process.env.PORT;
+  };
+  request(options, function (error, response) {
+    if (error) throw new Error(error);
+    console.log(response.body);
+  });
+
+}
+
+
 
 run_mode = args[1];
 
