@@ -74,10 +74,10 @@ app.get('/access_token', (req, res) => {
   };
   request(options, function (error, response) {
     if (error) throw new Error(error);
-    console.log("Access token");
+    console.log("Access token: " + response.body.access_token);
 
-    console.log(response.body);
-      getWABAId(response.body.access_token, function () {
+
+    getWABAId(response.body.access_token, function () {
 
     });
     res.send(response.body)
@@ -99,7 +99,7 @@ app.get('/get_wb_data', (req, res) => {
   };
   request(options, function (error, response) {
     if (error) throw new Error(error);
-    
+
     console.log(response.body);
     res.send(response.body)
   });
