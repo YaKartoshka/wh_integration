@@ -52,7 +52,7 @@ app.post("/webhook", async (req, res) => {
     };
     request(options, function (error, response) {
       if (error) throw new Error(error);
-      console.log(response.body);
+      console.log(JSON.parse(response.body));
     });
 
 
@@ -74,13 +74,13 @@ app.get('/access_token', (req, res) => {
   };
   request(options, function (error, response) {
     if (error) throw new Error(error);
-    console.log("Access token: " + response.body.access_token);
+    console.log("Access token: " + JSON.parse(response.body).access_token);
+    
 
-
-    getWABAId(response.body.access_token, function () {
+    getWABAId(JSON.parse(response.body).access_token, function () {
 
     });
-    res.send(response.body)
+    res.send(JSON.parse(response.body))
 
   });
 
@@ -100,8 +100,8 @@ app.get('/get_wb_data', (req, res) => {
   request(options, function (error, response) {
     if (error) throw new Error(error);
 
-    console.log(response.body);
-    res.send(response.body)
+    console.log(JSON.parse(response.body));
+    res.send(JSON.parse(response.body))
   });
 
 })
@@ -137,8 +137,8 @@ function getWABAId(user_access_token, cb) {
     if (error) throw new Error(error);
     console.log("getWABAId");
 
-    console.log(response.body);
-    getWPPhoneNumberId(user_access_token, response.body.data.granular_scopes[1].target_ids[0], function () {
+    console.log(JSON.parse(response.body));
+    getWPPhoneNumberId(user_access_token, JSON.parse(response.body).data.granular_scopes[1].target_ids[0], function () {
 
     })
   });
@@ -155,8 +155,8 @@ function getWPPhoneNumberId(user_access_token, waba_id, cb) {
   request(options, function (error, response) {
     if (error) throw new Error(error);
     console.log("getWPPhoneNumberId");
-    console.log(response.body);
-    registerPhoneNumber(response.body.data[0].id, user_access_token)
+    console.log(JSON.parse(response.body));
+    registerPhoneNumber(JSON.parse(response.body).data[0].id, user_access_token)
   });
 }
 
