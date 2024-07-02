@@ -24,10 +24,11 @@ app.get('/', (req, res) => {
 
 app.post("/webhook", async (req, res) => {
   let body = req.body;
+  console.log("Body")
+
   console.log(body)
-  console.log(req.body.entry[0].changes[0].value) // main object
   if (req.body.entry[0].changes[0].value.messages) { // if user texted
-    console.log(req.body.entry[0].changes[0].value.messages[0].text.body) // text of message
+    console.log("Message: " + req.body.entry[0].changes[0].value.messages[0].text.body) // text of message
     console.log(req.body.entry[0].changes[0].value.messages[0].from) // sender
     var options = {
       'method': 'POST',
