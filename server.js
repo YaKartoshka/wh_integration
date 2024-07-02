@@ -29,7 +29,8 @@ app.post("/webhook", async (req, res) => {
   console.log(body)
   console.log('-----')
   console.log(body.entry[0].changes[0])
-
+  console.log('-----statuses')
+  console.log(body.entry[0].changes[0].value.statuses)
   if (req.body.entry[0].changes[0].value.messages) { // if user texted
     console.log("Message: " + req.body.entry[0].changes[0].value.messages[0].text.body) // text of message
     console.log(req.body.entry[0].changes[0].value.messages[0].from) // sender
