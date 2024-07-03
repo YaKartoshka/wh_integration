@@ -27,38 +27,38 @@ app.post("/webhook", async (req, res) => {
   console.log("Body")
 
   console.log(body)
-  console.log('-----')
-  console.log(body.entry[0].changes[0])
-  if (req.body.entry[0].changes[0].value.messages) { // if user texted
-    console.log("Message: " + req.body.entry[0].changes[0].value.messages[0].text.body) // text of message
-    console.log(req.body.entry[0].changes[0].value.messages[0].from) // sender
-    var options = {
-      'method': 'POST',
-      'url': 'https://graph.facebook.com/v18.0/101441162720915/messages',
-      'headers': {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer EAAWkji7QfbsBO6sYfYOnGD52OUMOt5nAdWPfvDqAKfqzvOBevoI6sDaO1CPoIWnrmsIEyreGqTrw7P1lZAugVEl8iU9qn3EYoMgBZCkMsiSQMW1sNS8Q2mmUPKkbkHZA0nMbgO8ZBrpFZARC5ZAukVYxtoCWnJNktZAFS0EqCzdqRycLwp2nktAFnmYlaXg0ZAJZAwkTBVaAJCKE5ekQObAcz0q3rzZCEZD'
-      },
-      body: JSON.stringify({
-        "messaging_product": "whatsapp",
-        "to": "787779537464",
-        "type": "template",
-        "template": {
-          "name": "hello_world",
-          "language": {
-            "code": "en_US"
-          }
-        }
-      })
+  // console.log('-----')
+  // console.log(body.entry[0].changes[0])
+  // if (req.body.entry[0].changes[0].value.messages) { // if user texted
+  //   console.log("Message: " + req.body.entry[0].changes[0].value.messages[0].text.body) // text of message
+  //   console.log(req.body.entry[0].changes[0].value.messages[0].from) // sender
+  //   var options = {
+  //     'method': 'POST',
+  //     'url': 'https://graph.facebook.com/v18.0/101441162720915/messages',
+  //     'headers': {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer EAAWkji7QfbsBO6sYfYOnGD52OUMOt5nAdWPfvDqAKfqzvOBevoI6sDaO1CPoIWnrmsIEyreGqTrw7P1lZAugVEl8iU9qn3EYoMgBZCkMsiSQMW1sNS8Q2mmUPKkbkHZA0nMbgO8ZBrpFZARC5ZAukVYxtoCWnJNktZAFS0EqCzdqRycLwp2nktAFnmYlaXg0ZAJZAwkTBVaAJCKE5ekQObAcz0q3rzZCEZD'
+  //     },
+  //     body: JSON.stringify({
+  //       "messaging_product": "whatsapp",
+  //       "to": "787779537464",
+  //       "type": "template",
+  //       "template": {
+  //         "name": "hello_world",
+  //         "language": {
+  //           "code": "en_US"
+  //         }
+  //       }
+  //     })
 
-    };
-    request(options, function (error, response) {
-      if (error) throw new Error(error);
-      console.log(JSON.parse(response.body));
-    });
+  //   };
+  //   request(options, function (error, response) {
+  //     if (error) throw new Error(error);
+  //     console.log(JSON.parse(response.body));
+  //   });
 
 
-  }
+  // }
   res.sendStatus(200);
 
 });
