@@ -28,6 +28,8 @@ app.post("/webhook", async (req, res) => {
 
   console.log(body)
   // console.log('-----')
+  console.log("Message: " + req.body.entry[0].changes[0].value.messages[0].text.body) // text of message
+
   console.log(body.entry[0].changes[0])
   // if (req.body.entry[0].changes[0].value.messages) { // if user texted
   //   console.log("Message: " + req.body.entry[0].changes[0].value.messages[0].text.body) // text of message
@@ -195,7 +197,6 @@ function setWebhook(waba_id, user_access_token){
     if (error) throw new Error(error);
     console.log(response.body);
   });
-
 }
 
 
