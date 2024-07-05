@@ -160,11 +160,11 @@ function getWPPhoneNumberId(user_access_token, waba_id, cb) {
     if (error) throw new Error(error);
     console.log("getWPPhoneNumberId");
     console.log(JSON.parse(response.body));
-    registerPhoneNumber(JSON.parse(response.body).data[0].id, user_access_token)
+    registerPhoneNumber(JSON.parse(response.body).data[0].id, user_access_token, waba_id)
   });
 }
 
-function registerPhoneNumber(phone_number_id, user_access_token) {
+function registerPhoneNumber(phone_number_id, user_access_token, waba_id) {
   var options = {
     'method': 'POST',
     'url': `https://graph.facebook.com/v16.0/${phone_number_id}/register?messaging_product=whatsapp&pin=123456&access_token=${user_access_token}`,
@@ -174,6 +174,7 @@ function registerPhoneNumber(phone_number_id, user_access_token) {
   request(options, function (error, response) {
     if (error) throw new Error(error);
     console.log("registerPhoneNumber");
+    setWebhook(waba_id, user_access_token)
     console.log(response.body);
   });
 }
@@ -191,7 +192,6 @@ function setWebhook(waba_id, user_access_token){
       "override_callback_uri": "https://c10.webapi.ai/whatsapp/webhook",
       "verify_token": "6v0xt4vi"
     })
-
   };
   request(options, function (error, response) {
     if (error) throw new Error(error);
